@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="E-LKPD Case Based Learning untuk Pembelajaran Sistem Imun Kelas XI SMA">
+  <title>E-LKPD Case Based Learning - Sistem Imun</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .header { background: white; border-radius: 20px; padding: 30px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+    .header h1 { color: #5a3d7a; font-size: 1.8em; margin-bottom: 10px; }
+    .header p { color: #666; }
+    .badge { display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85em; margin: 5px; }
+    .nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
+    .nav-btn { padding: 12px 20px; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s; background: white; color: #5a3d7a; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .nav-btn:hover, .nav-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; transform: translateY(-2px); }
+    .section { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); display: none; }
+    .section.active { display: block; animation: fadeIn 0.5s; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    h2 { color: #5a3d7a; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid #667eea; }
+    h3 { color: #764ba2; margin: 20px 0 10px; }
+    h4 { color: #5a3d7a; margin: 15px 0 10px; }
+    .info-box { background: linear-gradient(135deg, #e8f4f8, #f0e6ff); padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #667eea; }
+    .warning-box { background: #fff3cd; padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #ffc107; }
+    .success-box { background: #d4edda; padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #28a745; }
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+    th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+    th { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    tr:nth-child(even) { background: #f8f9fa; }
+    tr:hover { background: #e8f4f8; }
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin: 15px 0; }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .image-container { text-align: center; margin: 20px 0; }
+    .image-container img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .image-caption { font-size: 0.9em; color: #666; margin-top: 8px; font-style: italic; }
+    .input-group { margin: 15px 0; }
+    .input-group label { display: block; font-weight: 600; color: #5a3d7a; margin-bottom: 8px; }
+    .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 1em; transition: border-color 0.3s; }
+    .input-group input:focus, .input-group textarea:focus { outline: none; border-color: #667eea; }
+    textarea { min-height: 100px; resize: vertical; }
+    .btn { padding: 12px 25px; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; margin: 5px; transition: all 0.3s; }
+    .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+    .btn-save { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 25px; border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 1000; }
+    .link-box { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
+    .link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 15px; background: #f8f9fa; border-radius: 10px; text-decoration: none; color: #5a3d7a; transition: all 0.3s; border: 2px solid #ddd; }
+    .link-btn:hover { background: #667eea; color: white; border-color: #667eea; }
+    .tahap { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8px 15px; border-radius: 20px; display: inline-block; margin: 20px 0 10px; font-weight: 600; font-size: 1.1em; }
+    .graph-container { background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 15px 0; font-family: monospace; white-space: pre; overflow-x: auto; }
+    .accordion { background: #f8f9fa; border-radius: 12px; margin: 10px 0; overflow: hidden; }
+    .accordion-header { padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #5a3d7a; }
+    .accordion-header:hover { background: #e8f4f8; }
+    .accordion-content { padding: 0 15px; max-height: 0; overflow: hidden; transition: all 0.3s; }
+    .accordion.open .accordion-content { max-height: 3000px; padding: 15px; }
+    .accordion-icon { transition: transform 0.3s; }
+    .accordion.open .accordion-icon { transform: rotate(180deg); }
+    .identity-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+    ul, ol { margin-left: 20px; margin-bottom: 15px; }
+    li { margin-bottom: 8px; line-height: 1.6; }
+    p { line-height: 1.7; margin-bottom: 10px; }
+    .kasus-detail { background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #764ba2; }
+    @media print {
+      body { background: white; padding: 0; }
+      .nav, .btn-save { display: none; }
+      .section { display: block !important; page-break-after: always; box-shadow: none; }
+    }
+    @media (max-width: 768px) {
+      .header h1 { font-size: 1.4em; }
+      .nav-btn { padding: 10px 15px; font-size: 0.9em; }
+      table { font-size: 0.8em; }
+      th, td { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📚 E-LKPD CASE BASED LEARNING</h1>
+      <p>Materi: Kelainan dan Gangguan Sistem Imun</p>
+      <div>
+        <span class="badge">Kelas XI SMA</span>
+        <span class="badge">Fase F Kurikulum Merdeka</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn active" onclick="showSection('identitas')">🆔 Identitas</button>
+      <button class="nav-btn" onclick="showSection('konsep')">📖 Konsep</button>
+      <button class="nav-btn" onclick="showSection('kasus1')">🔬 Kasus 1: Alergi</button>
+      <button class="nav-btn" onclick="showSection('kasus2')">🧬 Kasus 2: Autoimun</button>
+      <button class="nav-btn" onclick="showSection('kasus3')">🦠 Kasus 3: HIV/AIDS</button>
+    </nav>
+
+    <!-- IDENTITAS -->
+    <div id="identitas" class="section active">
+      <h2>🆔 Identitas Peserta Didik</h2>
+      <div class="info-box">
+        <strong>Capaian Pembelajaran:</strong><br>
+        Peserta didik mampu menganalisis keterkaitan struktur organ pada sistem organ dengan fungsinya serta kelainan atau gangguan yang muncul pada sistem organ tersebut (Sistem Imun).
+      </div>
+      <div class="identity-form">
+        <div class="input-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="nama" placeholder="Masukkan nama...">
+        </div>
+        <div class="input-group">
+          <label>Kelas</label>
+          <input type="text" id="kelas" placeholder="Contoh: XI MIPA 1">
+        </div>
+        <div class="input-group">
+          <label>Kelompok</label>
+          <input type="text" id="kelompok" placeholder="Contoh: Kelompok 3">
+        </div>
+        <div class="input-group">
+          <label>Tanggal</label>
+          <input type="date" id="tanggal">
+        </div>
+      </div>
+      
+      <h3>🎯 Tujuan Pembelajaran</h3>
+      <ol>
+        <li>Menganalisis data numerik terkait gangguan sistem imun</li>
+        <li>Menginterpretasikan grafik dan tabel hasil pemeriksaan imunologis</li>
+        <li>Menghubungkan data kuantitatif dengan kondisi fisiologis tubuh</li>
+        <li>Menyusun kesimpulan berdasarkan bukti numerik</li>
+        <li>Mempresentasikan hasil analisis kasus</li>
+        <li>Melakukan refleksi dan revisi pembelajaran</li>
+      </ol>
+      
+      <div class="success-box">
+        <strong>📌 Petunjuk:</strong> Isi identitas, pelajari konsep dasar, lalu kerjakan setiap kasus secara berurutan bersama kelompokmu melalui 7 tahapan CBL!
+      </div>
+    </div>
+
+    <!-- KONSEP SISTEM IMUN -->
+    <div id="konsep" class="section">
+      <h2>📖 Konsep Dasar Sistem Imun</h2>
+      
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/X3swN8Bkz1U" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <p style="text-align:center; color:#666; font-size:0.9em;">Video: Sistem Kekebalan Tubuh - Biologi Kelas 11 (Bahasa Indonesia)</p>
+
+      <div class="image-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Antibody.svg/800px-Antibody.svg.png" alt="Struktur Antibodi">
+        <p class="image-caption">Gambar: Struktur Antibodi (Imunoglobulin)</p>
+      </div>
+
+      <div class="accordion open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🛡️ A. Pengertian Sistem Imun</span>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <p>Sistem imun adalah sistem pertahanan tubuh yang berfungsi melindungi organisme dari berbagai agen penyebab penyakit (patogen) seperti bakteri, virus, jamur, dan parasit.</p>
+          <p>Sistem ini terdiri dari jaringan kompleks yang melibatkan sel, organ, dan molekul yang bekerja sama untuk mengenali serta menetralisir zat asing (antigen) yang berpotensi membahayakan tubuh.</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🔬 B. Komponen Sistem Imun</span>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="image-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Phagocytosis.png/600px-Phagocytosis.png" alt="Fagositosis">
+            <p class="image-caption">Gambar: Proses Fagositosis oleh Sel Darah Putih</p>
+          </div>
+          
+          <h4>1. Sistem Imun Nonspesifik (Innate Immunity)</h4>
+          <ul>
+            <li><strong>Pertahanan Fisik:</strong> Kulit, membran mukosa, silia</li>
+            <li><strong>Pertahanan Kimia:</strong> Asam lambung, lisozim, sebum</li>
+            <li><strong>Sel Fagosit:</strong> Makrofag, neutrofil, sel dendritik</li>
+            <li><strong>Protein:</strong> Komplemen, interferon</li>
+            <li><strong>Respon:</strong> Inflamasi (peradangan)</li>
+          </ul>
+          
+          <h4>2. Sistem Imun Spesifik (Adaptive Immunity)</h4>
+          <ul>
+            <li><strong>Limfosit B:</strong> Menghasilkan antibodi</li>
+            <li><strong>Limfosit T:</strong> Menghancurkan sel terinfeksi</li>
+            <li><strong>Sel Memori:</strong> Mengingat antigen untuk perlindungan jangka panjang</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>💉 C. Jenis-Jenis Antibodi</span>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <table>
+            <tr><th>Antibodi</th><th>Fungsi Utama</th><th>Lokasi</th></tr>
+            <tr><td><strong>IgG</strong></td><td>Antibodi utama, menembus plasenta</td><td>Darah, jaringan</td></tr>
+            <tr><td><strong>IgA</strong></td><td>Pertahanan mukosa</td><td>Saliva, ASI, mukus</td></tr>
+            <tr><td><strong>IgM</strong></td><td>Respon primer pertama</td><td>Darah</td></tr>
+            <tr><td><strong>IgE</strong></td><td>Reaksi alergi</td><td>Kulit, saluran napas</td></tr>
+            <tr><td><strong>IgD</strong></td><td>Aktivasi sel B</td><td>Permukaan sel B</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>⚠️ D. Gangguan Sistem Imun</span>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <table>
+            <tr><th>Jenis Gangguan</th><th>Contoh</th><th>Ciri Khas</th></tr>
+            <tr><td><strong>Alergi/Hipersensitivitas</strong></td><td>Asma, bersin-bersin, gatal-gatal</td><td>Sistem imun bereaksi berlebihan terhadap zat yang tidak berbahaya</td></tr>
+            <tr><td><strong>Penyakit Autoimun</strong></td><td>Lupus, Diabetes tipe 1</td><td>Sistem imun menyerang sel tubuh sendiri</td></tr>
+            <tr><td><strong>Imunodefisiensi</strong></td><td>HIV/AIDS</td><td>Sistem imun lemah, mudah sakit</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <h3>🔗 Sumber Belajar Tambahan</h3>
+      <div class="link-box">
+        <a href="https://www.kompas.com/skola/read/2020/02/07/180000769/apa-itu-sistem-imun" target="_blank" class="link-btn">📚 Kompas - Sistem Imun</a>
+        <a href="https://www.alodokter.com/cari-tahu-tentang-imunologi-di-sini" target="_blank" class="link-btn">🏥 Alodokter - Imunologi</a>
+      </div>
+    </div>
+
+    <!-- KASUS 1: ALERGI -->
+    <div id="kasus1" class="section">
+      <h2>🔬 Kasus 1: Reaksi Alergi pada Remaja</h2>
+      
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/QLHDfE6svn4" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <p style="text-align:center; color:#666; font-size:0.9em;">Video: Apa Itu Alergi dan Cara Mengatasinya (Bahasa Indonesia)</p>
+
+      <div class="image-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Allergy_degranulation_processes_01.svg/800px-Allergy_degranulation_processes_01.svg.png" alt="Mekanisme Alergi">
+        <p class="image-caption">Gambar: Mekanisme Reaksi Alergi - Pelepasan Histamin dari Sel Mast</p>
+      </div>
+
+      <div class="warning-box">
+        <strong>📚 Pahami Dulu Istilah Ini!</strong>
+        <ul style="margin-top:10px;">
+          <li><strong>IgE:</strong> Antibodi khusus alergi. Jika tinggi = tubuh sedang bereaksi berlebihan</li>
+          <li><strong>Histamin:</strong> Zat penyebab gatal, bengkak, dan sesak napas saat alergi</li>
+          <li><strong>Eosinofil:</strong> Jenis sel darah putih yang naik saat alergi</li>
+        </ul>
+      </div>
+
+      <span class="tahap">TAHAP 1: Menetapkan Kasus</span>
+      <div class="kasus-detail">
+        <h4>📋 Narasi Kasus Lengkap</h4>
+        <p><strong>Identitas Pasien:</strong></p>
+        <ul>
+          <li>Nama: Rina Safitri</li>
+          <li>Umur: 16 tahun</li>
+          <li>Pekerjaan: Siswi SMA Kelas XI</li>
+          <li>Alamat: Bandung, Jawa Barat</li>
+        </ul>
+        
+        <p><strong>Riwayat Kejadian:</strong></p>
+        <p>Pada hari Senin, 20 November 2024, pukul 12.30 WIB, Rina sedang makan siang di kantin sekolah bersama teman-temannya. Menu yang dipilihnya adalah nasi goreng seafood yang mengandung udang, cumi, dan kerang. Rina sebenarnya jarang mengonsumsi makanan laut karena orangtuanya membatasi konsumsinya, namun hari itu ia sangat tertarik dengan penampilan makanan tersebut.</p>
+        
+        <p>Sekitar 30 menit setelah makan (pukul 13.00 WIB), saat sedang mengikuti pelajaran di kelas, Rina mulai merasakan gatal-gatal di lengan dan leher. Ia menggaruk-garuk kulitnya yang terasa sangat gatal. Dalam waktu 10 menit, gatal tersebut menyebar ke seluruh tubuh dan muncul bentol-bentol merah seperti biduran.</p>
+        
+        <p>Pukul 13.15 WIB, kondisi Rina semakin memburuk. Bibir bawahnya mulai membengkak, matanya berair, dan ia mulai merasa sesak napas. Teman-teman sekelasnya panik melihat wajah Rina yang memerah dan bengkak. Guru yang mengajar segera memanggil guru UKS.</p>
+        
+        <p>Pukul 13.20 WIB, guru UKS tiba dan melihat kondisi Rina yang cukup serius. Tekanan darah Rina menurun (90/60 mmHg), nadi meningkat (110 kali/menit), dan ia kesulitan bernapas. Guru UKS segera memberikan pertolongan pertama dan menghubungi ambulans.</p>
+        
+        <p>Pukul 13.45 WIB, Rina tiba di UGD Rumah Sakit terdekat. Dokter jaga segera melakukan pemeriksaan dan memberikan injeksi antihistamin serta kortikosteroid. Dokter juga mengambil sampel darah untuk pemeriksaan laboratorium lengkap.</p>
+        
+        <p><strong>Riwayat Kesehatan:</strong></p>
+        <ul>
+          <li>Rina pernah mengalami gatal-gatal ringan setelah makan udang saat masih SD, namun tidak separah ini</li>
+          <li>Ayahnya memiliki riwayat asma dan alergi debu</li>
+          <li>Kakaknya alergi terhadap telur</li>
+          <li>Tidak ada riwayat penyakit kronis lainnya</li>
+        </ul>
+        
+        <p><strong>Pemeriksaan Fisik di UGD:</strong></p>
+        <ul>
+          <li>Kesadaran: Compos mentis (sadar penuh)</li>
+          <li>Tekanan darah: 90/60 mmHg (rendah)</li>
+          <li>Nadi: 110 x/menit (cepat)</li>
+          <li>Pernapasan: 28 x/menit (cepat)</li>
+          <li>Suhu: 37,2°C (normal)</li>
+          <li>Bibir: bengkak terutama bibir bawah</li>
+          <li>Kulit: urtikaria (biduran) di seluruh tubuh</li>
+          <li>Mata: konjungtiva merah, berair</li>
+        </ul>
+      </div>
+
+      <h4>📊 Data Pemeriksaan Laboratorium</h4>
+      <table>
+        <tr><th>Parameter</th><th>Hasil Rina</th><th>Nilai Normal</th><th>Interpretasi</th></tr>
+        <tr><td>IgE Total</td><td style="color:red; font-weight:bold;">850 IU/mL</td><td>&lt; 100 IU/mL</td><td>Sangat Tinggi ↑↑↑</td></tr>
+        <tr><td>Eosinofil</td><td style="color:red; font-weight:bold;">12%</td><td>1-4%</td><td>Tinggi ↑↑</td></tr>
+        <tr><td>Histamin Darah</td><td style="color:red; font-weight:bold;">85 ng/mL</td><td>&lt; 10 ng/mL</td><td>Sangat Tinggi ↑↑↑</td></tr>
+        <tr><td>Sel Mast Aktif</td><td style="color:red; font-weight:bold;">45%</td><td>&lt; 5%</td><td>Sangat Tinggi ↑↑↑</td></tr>
+        <tr><td>Leukosit Total</td><td>11.200/mm³</td><td>5.000-10.000/mm³</td><td>Sedikit Tinggi ↑</td></tr>
+      </table>
+
+      <h4>📈 Grafik Kadar Histamin Setelah Paparan Alergen</h4>
+      <div class="graph-container">
+Histamin (ng/mL)
+100 │                    ●
+ 80 │               ●         ●
+ 60 │          ●
+ 40 │     ●
+ 20 │●
+  0 └─────────────────────────────
+    0   15   30   45   60   90 (menit)</div>
+
+      <span class="tahap">TAHAP 2: Menganalisis Kasus</span>
+      
+      <div class="input-group">
+        <label>1. Identifikasi dan jelaskan gejala-gejala utama yang dialami Rina secara berurutan!</label>
+        <textarea id="kasus1_q1" placeholder="Tuliskan urutan gejala yang muncul beserta waktu kemunculannya..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>2. Berapa kali lipat kadar IgE Rina dibandingkan batas normal tertinggi? Tunjukkan perhitungannya!</label>
+        <input type="text" id="kasus1_q2" placeholder="Tuliskan perhitungan: 850 ÷ 100 = ...">
+      </div>
+
+      <div class="input-group">
+        <label>3. Berdasarkan grafik, pada menit ke berapa kadar histamin mencapai puncak? Apa yang terjadi pada tubuh Rina saat itu?</label>
+        <input type="text" id="kasus1_q3" placeholder="Menit ke-... dan kondisi tubuh saat itu...">
+      </div>
+
+      <div class="input-group">
+        <label>4. Hitung peningkatan kadar histamin dari menit ke-0 hingga menit ke-45! Berapa persen peningkatannya?</label>
+        <input type="text" id="kasus1_q4" placeholder="Perhitungan: (85-20)/20 × 100% = ...%">
+      </div>
+
+      <div class="input-group">
+        <label>5. Analisis data tabel: Parameter mana yang paling abnormal? Jelaskan hubungannya dengan gejala yang dialami!</label>
+        <textarea id="kasus1_q5" placeholder="Bandingkan nilai hasil dengan nilai normal, lalu jelaskan hubungannya dengan gejala..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 3: Mencari Data dan Literatur Pendukung</span>
+      
+      <div class="link-box">
+        <a href="https://www.halodoc.com/artikel/kenali-alergi-penyebab-gejala-dan-cara-mengatasinya" target="_blank" class="link-btn">🏥 Halodoc - Mengenali Alergi</a>
+        <a href="https://www.alodokter.com/alergi" target="_blank" class="link-btn">📖 Alodokter - Alergi</a>
+        <a href="https://hellosehat.com/alergi/alergi-makanan/" target="_blank" class="link-btn">📚 Hello Sehat - Alergi Makanan</a>
+      </div>
+
+      <div class="input-group">
+        <label>6. Berdasarkan sumber referensi di atas, jelaskan mengapa kadar IgE meningkat drastis pada penderita alergi!</label>
+        <textarea id="kasus1_q6" placeholder="Tuliskan penjelasan berdasarkan literatur yang kamu baca..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>7. Cari informasi: Apa yang dimaksud dengan "anafilaksis"? Apakah kondisi Rina termasuk anafilaksis? Jelaskan!</label>
+        <textarea id="kasus1_q7" placeholder="Jelaskan definisi anafilaksis dan analisis apakah kondisi Rina termasuk anafilaksis..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 4: Menentukan Alternatif Penyelesaian</span>
+      
+      <h4>📊 Data Pemberian Antihistamin pada Rina</h4>
+      <table>
+        <tr><th>Waktu (jam)</th><th>Kadar Histamin (ng/mL)</th><th>Kondisi Pasien</th></tr>
+        <tr><td>0 (sebelum obat)</td><td>85</td><td>Gatal hebat, bengkak, sesak napas</td></tr>
+        <tr><td>1</td><td>60</td><td>Gatal berkurang, masih bengkak</td></tr>
+        <tr><td>2</td><td>40</td><td>Bengkak mulai berkurang</td></tr>
+        <tr><td>3</td><td>25</td><td>Napas lebih lega</td></tr>
+        <tr><td>4</td><td>15</td><td>Gejala minimal</td></tr>
+        <tr><td>5</td><td>8</td><td>Kondisi stabil</td></tr>
+      </table>
+
+      <div class="input-group">
+        <label>8. Hitung persentase penurunan kadar histamin setelah 5 jam pengobatan!</label>
+        <input type="text" id="kasus1_q8" placeholder="[(85-8) ÷ 85] × 100% = ...%">
+      </div>
+
+      <div class="input-group">
+        <label>9. Berdasarkan tabel, pada jam ke berapa kondisi pasien sudah stabil? Jelaskan alasanmu!</label>
+        <input type="text" id="kasus1_q9" placeholder="Jam ke-... karena...">
+      </div>
+
+      <div class="input-group">
+        <label>10. Selain antihistamin, penanganan apa lagi yang seharusnya diberikan pada kasus alergi berat? (cari dari literatur)</label>
+        <textarea id="kasus1_q10" placeholder="Sebutkan minimal 3 alternatif penanganan lain..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 5: Menarik Kesimpulan</span>
+      
+      <div class="input-group">
+        <label>11. Berdasarkan seluruh data dan analisis, buatlah kesimpulan lengkap tentang kasus Rina!</label>
+        <textarea id="kasus1_q11" placeholder="Kesimpulan harus mencakup: (1) Diagnosis, (2) Penyebab berdasarkan data lab, (3) Mekanisme yang terjadi, (4) Penanganan yang tepat, (5) Saran pencegahan"></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 6: Mempresentasikan Hasil</span>
+      
+      <div class="success-box">
+        <strong>📢 Tugas Presentasi Kelompok:</strong>
+        <ol style="margin-top:10px;">
+          <li>Siapkan presentasi kelompokmu (5-7 menit)</li>
+          <li>Jelaskan hasil analisis data laboratorium Rina</li>
+          <li>Presentasikan grafik dan interpretasinya</li>
+          <li>Sampaikan kesimpulan dan rekomendasi</li>
+          <li>Siapkan untuk menjawab pertanyaan dari kelompok lain</li>
+        </ol>
+      </div>
+
+      <div class="input-group">
+        <label>12. Catatan Feedback dari Presentasi (diisi setelah presentasi):</label>
+        <textarea id="kasus1_q12" placeholder="Tuliskan masukan dari guru dan kelompok lain..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 7: Melakukan Refleksi dan Revisi</span>
+      
+      <div class="input-group">
+        <label>13. Refleksi Pribadi: Apa yang sudah kamu pahami dengan baik dari kasus ini?</label>
+        <textarea id="kasus1_q13" placeholder="Tuliskan pemahaman yang sudah kamu kuasai..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>14. Apa yang masih membingungkan atau perlu dipelajari lebih lanjut?</label>
+        <textarea id="kasus1_q14" placeholder="Tuliskan hal-hal yang masih perlu dipelajari..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>15. Revisi: Berdasarkan feedback dan refleksi, perbaiki kesimpulanmu pada nomor 11!</label>
+        <textarea id="kasus1_q15" placeholder="Tuliskan kesimpulan yang sudah diperbaiki..."></textarea>
+      </div>
+    </div>
+
+    <!-- KASUS 2: AUTOIMUN -->
+    <div id="kasus2" class="section">
+      <h2>🧬 Kasus 2: Penyakit Autoimun pada Wanita Dewasa</h2>
+      
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/kccBXyZ8jDs" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <p style="text-align:center; color:#666; font-size:0.9em;">Video: Penyakit Autoimun - Penjelasan Lengkap (Bahasa Indonesia)</p>
+
+      <div class="image-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Lupus_erythematosus.png/600px-Lupus_erythematosus.png" alt="Lupus Butterfly Rash">
+        <p class="image-caption">Gambar: Ruam Kupu-kupu (Butterfly Rash) pada Penderita Lupus</p>
+      </div>
+
+      <div class="warning-box">
+        <strong>📚 Pahami Dulu Istilah Ini!</strong>
+        <ul style="margin-top:10px;">
+          <li><strong>Autoimun:</strong> Kondisi di mana sistem imun menyerang sel tubuh sendiri</li>
+          <li><strong>ANA (Antinuclear Antibody):</strong> Antibodi yang menyerang inti sel sendiri</li>
+          <li><strong>Lupus (SLE):</strong> Penyakit autoimun yang menyerang berbagai organ</li>
+        </ul>
+      </div>
+
+      <span class="tahap">TAHAP 1: Menetapkan Kasus</span>
+      <div class="kasus-detail">
+        <h4>📋 Narasi Kasus Lengkap</h4>
+        <p><strong>Identitas Pasien:</strong></p>
+        <ul>
+          <li>Nama: Ibu Sari Wulandari</li>
+          <li>Umur: 28 tahun</li>
+          <li>Pekerjaan: Guru SD</li>
+          <li>Alamat: Jakarta Selatan</li>
+          <li>Status: Menikah, belum memiliki anak</li>
+        </ul>
+        
+        <p><strong>Riwayat Kejadian:</strong></p>
+        <p>Sejak 6 bulan yang lalu (Mei 2024), Ibu Sari mulai merasakan keluhan yang tidak biasa. Awalnya, ia merasa sangat lelah meskipun tidak melakukan aktivitas berat. Bangun tidur pun tubuhnya terasa tidak segar, seolah-olah tidak tidur sama sekali. Ia pikir ini hanya karena kelelahan mengajar.</p>
+        
+        <p>Bulan Juni 2024, muncul ruam kemerahan di kedua pipinya yang membentuk pola seperti kupu-kupu, melintasi hidung. Ruam ini tidak gatal, tapi terasa perih terutama saat terkena sinar matahari. Suaminya menyarankan untuk berobat, namun Ibu Sari mengira ini hanya alergi biasa dan membeli salep dari apotek.</p>
+        
+        <p>Juli-Agustus 2024, kondisinya memburuk. Sendi-sendi di tangan, pergelangan tangan, dan lututnya mulai terasa nyeri dan kaku, terutama di pagi hari. Ia kesulitan menulis di papan tulis dan memegang spidol. Terkadang tangannya bengkak. Demam ringan (37,5-38°C) sering muncul tanpa sebab yang jelas.</p>
+        
+        <p>September 2024, rambut Ibu Sari mulai rontok dalam jumlah banyak. Setiap menyisir, puluhan helai rambut ikut tercabut. Ia juga sering merasa pusing dan sesak napas saat naik tangga. Sariawan di mulut tidak kunjung sembuh selama 2 minggu.</p>
+        
+        <p>Oktober 2024, suaminya memaksanya untuk periksa ke dokter spesialis penyakit dalam. Dokter mencurigai adanya penyakit autoimun dan menyarankan pemeriksaan darah lengkap dan tes khusus.</p>
+        
+        <p><strong>Riwayat Kesehatan:</strong></p>
+        <ul>
+          <li>Tidak ada riwayat penyakit kronis sebelumnya</li>
+          <li>Ibu kandungnya menderita rheumatoid arthritis (penyakit autoimun pada sendi)</li>
+          <li>Adik perempuannya mengalami masalah tiroid</li>
+          <li>Pernah keguguran 1 tahun lalu pada usia kehamilan 8 minggu</li>
+          <li>Tidak merokok, tidak minum alkohol</li>
+        </ul>
+        
+        <p><strong>Pemeriksaan Fisik:</strong></p>
+        <ul>
+          <li>Kesadaran: Compos mentis</li>
+          <li>Tekanan darah: 130/85 mmHg</li>
+          <li>Nadi: 88 x/menit</li>
+          <li>Suhu: 37,8°C</li>
+          <li>Ruam malar (butterfly rash) di kedua pipi</li>
+          <li>Sendi tangan dan pergelangan tangan bengkak</li>
+          <li>Rambut rontok difus</li>
+          <li>Ulkus (luka) di mukosa mulut</li>
+        </ul>
+      </div>
+
+      <h4>📊 Data Pemeriksaan Laboratorium</h4>
+      <table>
+        <tr><th>Parameter</th><th>Hasil Ibu Sari</th><th>Nilai Normal</th><th>Interpretasi</th></tr>
+        <tr><td>ANA (Antinuclear Antibody)</td><td style="color:red; font-weight:bold;">Positif (1:640)</td><td>Negatif (&lt;1:40)</td><td>Sangat Tinggi ↑↑↑</td></tr>
+        <tr><td>Anti-dsDNA</td><td style="color:red; font-weight:bold;">185 IU/mL</td><td>&lt; 30 IU/mL</td><td>Positif Kuat ↑↑↑</td></tr>
+        <tr><td>LED (Laju Endap Darah)</td><td style="color:red; font-weight:bold;">65 mm/jam</td><td>&lt; 20 mm/jam</td><td>Sangat Tinggi ↑↑↑</td></tr>
+        <tr><td>CRP (C-Reactive Protein)</td><td style="color:red; font-weight:bold;">28 mg/L</td><td>&lt; 5 mg/L</td><td>Tinggi ↑↑</td></tr>
+        <tr><td>Komplemen C3</td><td style="color:blue; font-weight:bold;">45 mg/dL</td><td>90-180 mg/dL</td><td>Rendah ↓↓</td></tr>
+        <tr><td>Komplemen C4</td><td style="color:blue; font-weight:bold;">8 mg/dL</td><td>10-40 mg/dL</td><td>Rendah ↓</td></tr>
+        <tr><td>Leukosit</td><td style="color:blue; font-weight:bold;">3.200/mm³</td><td>5.000-10.000/mm³</td><td>Rendah ↓↓</td></tr>
+        <tr><td>Trombosit</td><td style="color:blue; font-weight:bold;">98.000/mm³</td><td>150.000-400.000/mm³</td><td>Rendah ↓↓</td></tr>
+        <tr><td>Protein Urin</td><td style="color:red; font-weight:bold;">+++ (300 mg/dL)</td><td>Negatif</td><td>Positif ↑↑</td></tr>
+      </table>
+
+      <h4>📈 Grafik Perkembangan LED Selama 6 Bulan</h4>
+      <div class="graph-container">
+LED (mm/jam)
+70 │                              ●
+60 │                         ●
+50 │                    ●
+40 │               ●
+30 │          ●
+20 │     ●
+10 │●───────────────────────────── (Batas Normal)
+ 0 └─────────────────────────────────
+   Mei  Jun  Jul  Ags  Sep  Okt (2024)</div>
+
+      <span class="tahap">TAHAP 2: Menganalisis Kasus</span>
+      
+      <div class="input-group">
+        <label>1. Identifikasi dan kelompokkan gejala yang dialami Ibu Sari berdasarkan organ yang terkena!</label>
+        <textarea id="kasus2_q1" placeholder="Kelompokkan gejala: (a) Kulit, (b) Sendi, (c) Sistem imun, (d) Lainnya..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>2. Hitung berapa kali lipat nilai ANA Ibu Sari dibandingkan batas normal tertinggi!</label>
+        <input type="text" id="kasus2_q2" placeholder="640 ÷ 40 = ...">
+      </div>
+
+      <div class="input-group">
+        <label>3. Analisis data komplemen C3 dan C4: Mengapa nilainya rendah pada penyakit autoimun?</label>
+        <textarea id="kasus2_q3" placeholder="Jelaskan hubungan penurunan komplemen dengan penyakit autoimun..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>4. Berdasarkan grafik LED, hitung peningkatan dari bulan Mei ke Oktober! Berapa persen peningkatannya?</label>
+        <input type="text" id="kasus2_q4" placeholder="(65-10)/10 × 100% = ...%">
+      </div>
+
+      <div class="input-group">
+        <label>5. Apa makna klinis dari protein urin yang positif pada kasus ini?</label>
+        <textarea id="kasus2_q5" placeholder="Jelaskan apa artinya ada protein dalam urin dan organ apa yang terkena..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 3: Mencari Data dan Literatur Pendukung</span>
+      
+      <div class="link-box">
+        <a href="https://www.alodokter.com/lupus" target="_blank" class="link-btn">🏥 Alodokter - Lupus</a>
+        <a href="https://www.halodoc.com/artikel/ini-gejala-lupus-yang-perlu-diwaspadai" target="_blank" class="link-btn">📖 Halodoc - Gejala Lupus</a>
+        <a href="https://hellosehat.com/penyakit-kulit/penyakit-autoimun-kulit/lupus/" target="_blank" class="link-btn">📚 Hello Sehat - Lupus</a>
+      </div>
+
+      <div class="input-group">
+        <label>6. Berdasarkan literatur, jelaskan mengapa penyakit autoimun lebih banyak menyerang wanita!</label>
+        <textarea id="kasus2_q6" placeholder="Tuliskan penjelasan berdasarkan sumber yang kamu baca..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>7. Cari informasi: Apa itu "lupus nephritis" dan bagaimana hubungannya dengan data protein urin Ibu Sari?</label>
+        <textarea id="kasus2_q7" placeholder="Jelaskan definisi lupus nephritis dan analisis kasusnya..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 4: Menentukan Alternatif Penyelesaian</span>
+      
+      <h4>📊 Data Terapi yang Diberikan pada Ibu Sari</h4>
+      <table>
+        <tr><th>Obat</th><th>Dosis</th><th>Fungsi</th></tr>
+        <tr><td>Kortikosteroid (Prednison)</td><td>20 mg/hari</td><td>Menekan sistem imun yang hiperaktif</td></tr>
+        <tr><td>Hydroxychloroquine</td><td>200 mg 2x/hari</td><td>Obat anti malaria untuk lupus</td></tr>
+        <tr><td>Azathioprine</td><td>50 mg/hari</td><td>Imunosupresan</td></tr>
+      </table>
+
+      <h4>📊 Perkembangan LED Setelah 3 Bulan Terapi</h4>
+      <table>
+        <tr><th>Bulan</th><th>LED (mm/jam)</th><th>Kondisi Pasien</th></tr>
+        <tr><td>Sebelum terapi</td><td>65</td><td>Nyeri sendi hebat, ruam luas</td></tr>
+        <tr><td>Bulan ke-1</td><td>48</td><td>Nyeri berkurang</td></tr>
+        <tr><td>Bulan ke-2</td><td>32</td><td>Ruam memudar</td></tr>
+        <tr><td>Bulan ke-3</td><td>18</td><td>Kondisi stabil</td></tr>
+      </table>
+
+      <div class="input-group">
+        <label>8. Hitung persentase penurunan LED setelah 3 bulan terapi!</label>
+        <input type="text" id="kasus2_q8" placeholder="[(65-18) ÷ 65] × 100% = ...%">
+      </div>
+
+      <div class="input-group">
+        <label>9. Selain obat-obatan, apa saja modifikasi gaya hidup yang harus dilakukan Ibu Sari? (cari dari literatur)</label>
+        <textarea id="kasus2_q9" placeholder="Sebutkan minimal 5 perubahan gaya hidup yang diperlukan..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>10. Mengapa pengobatan penyakit autoimun memerlukan waktu lama dan tidak bisa dihentikan mendadak?</label>
+        <textarea id="kasus2_q10" placeholder="Jelaskan alasan medis mengapa terapi harus jangka panjang..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 5: Menarik Kesimpulan</span>
+      
+      <div class="input-group">
+        <label>11. Berdasarkan seluruh data dan analisis, buatlah kesimpulan lengkap tentang kasus Ibu Sari!</label>
+        <textarea id="kasus2_q11" placeholder="Kesimpulan harus mencakup: (1) Diagnosis, (2) Dasar diagnosis dari data lab, (3) Mekanisme penyakit, (4) Terapi yang diberikan, (5) Prognosis"></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 6: Mempresentasikan Hasil</span>
+      
+      <div class="success-box">
+        <strong>📢 Tugas Presentasi Kelompok:</strong>
+        <ol style="margin-top:10px;">
+          <li>Siapkan presentasi kelompokmu (5-7 menit)</li>
+          <li>Jelaskan perbedaan antara penyakit autoimun dengan alergi</li>
+          <li>Presentasikan interpretasi data laboratorium</li>
+          <li>Sampaikan rencana penanganan jangka panjang</li>
+          <li>Siapkan untuk menjawab pertanyaan</li>
+        </ol>
+      </div>
+
+      <div class="input-group">
+        <label>12. Catatan Feedback dari Presentasi (diisi setelah presentasi):</label>
+        <textarea id="kasus2_q12" placeholder="Tuliskan masukan dari guru dan kelompok lain..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 7: Melakukan Refleksi dan Revisi</span>
+      
+      <div class="input-group">
+        <label>13. Refleksi: Apa perbedaan utama antara kasus alergi (Kasus 1) dengan kasus autoimun (Kasus 2)?</label>
+        <textarea id="kasus2_q13" placeholder="Bandingkan dari segi: penyebab, mekanisme, data lab, dan penanganan..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>14. Apa yang masih sulit dipahami tentang penyakit autoimun?</label>
+        <textarea id="kasus2_q14" placeholder="Tuliskan bagian yang masih perlu penjelasan lebih lanjut..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>15. Revisi: Perbaiki kesimpulanmu pada nomor 11 berdasarkan feedback!</label>
+        <textarea id="kasus2_q15" placeholder="Tuliskan kesimpulan yang sudah diperbaiki..."></textarea>
+      </div>
+    </div>
+
+    <!-- KASUS 3: HIV/AIDS -->
+    <div id="kasus3" class="section">
+      <h2>🦠 Kasus 3: Imunodefisiensi (HIV/AIDS)</h2>
+      
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/6EqI8Az-BHg" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <p style="text-align:center; color:#666; font-size:0.9em;">Video: HIV dan AIDS - Penjelasan Lengkap (Bahasa Indonesia)</p>
+
+      <div class="image-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/HIV-budding-Color.jpg/600px-HIV-budding-Color.jpg" alt="Virus HIV">
+        <p class="image-caption">Gambar: Virus HIV (berwarna hijau) keluar dari sel T (mikroskop elektron)</p>
+      </div>
+
+      <div class="warning-box">
+        <strong>📚 Pahami Dulu Istilah Ini!</strong>
+        <ul style="margin-top:10px;">
+          <li><strong>HIV:</strong> Virus yang menyerang sel CD4 (sel T pembantu)</li>
+          <li><strong>AIDS:</strong> Tahap lanjut infeksi HIV di mana sistem imun sudah sangat lemah</li>
+          <li><strong>CD4:</strong> Sel T pembantu yang mengkoordinasi sistem imun</li>
+          <li><strong>Viral Load:</strong> Jumlah virus HIV dalam darah</li>
+          <li><strong>Infeksi Oportunistik:</strong> Infeksi yang muncul karena sistem imun lemah</li>
+        </ul>
+      </div>
+
+      <span class="tahap">TAHAP 1: Menetapkan Kasus</span>
+      <div class="kasus-detail">
+        <h4>📋 Narasi Kasus Lengkap</h4>
+        <p><strong>Identitas Pasien:</strong></p>
+        <ul>
+          <li>Nama: Bapak Doni (nama disamarkan)</li>
+          <li>Umur: 35 tahun</li>
+          <li>Pekerjaan: Karyawan swasta</li>
+          <li>Alamat: Surabaya, Jawa Timur</li>
+          <li>Status: Menikah, 2 anak</li>
+        </ul>
+        
+        <p><strong>Riwayat Kejadian:</strong></p>
+        <p>Bapak Doni pertama kali didiagnosis HIV positif 5 tahun yang lalu (2019) melalui tes darah rutin saat akan operasi hernia. Saat itu ia sangat terkejut karena tidak pernah merasa sakit. Dokter menjelaskan bahwa ia terinfeksi HIV kemungkinan beberapa tahun sebelumnya.</p>
+        
+        <p>Setelah diagnosis, ia sempat mengalami depresi dan tidak mau minum obat ARV (Antiretroviral) yang diresepkan. Ia merasa malu dan takut orang lain tahu. Selama 2 tahun (2019-2021), ia hanya kontrol sesekali dan tidak rutin minum obat.</p>
+        
+        <p>Tahun 2021, kondisinya mulai memburuk. Ia sering demam yang hilang-timbul, berat badannya turun drastis dari 70 kg menjadi 55 kg dalam 6 bulan. Keringat malam yang sangat banyak membuatnya harus ganti baju 2-3 kali semalam. Diare kronis yang tidak sembuh-sembuh selama berbulan-bulan. Ia juga sering batuk-batuk kering.</p>
+        
+        <p>Januari 2024, Pak Doni akhirnya kembali ke klinik VCT (Voluntary Counseling and Testing) setelah isterinya memaksanya. Saat itu kondisinya sudah sangat lemah. Pemeriksaan menunjukkan banyak bercak putih di mulut dan lidahnya (kandidiasis oral). Ada benjolan di leher (pembesaran kelenjar getah bening).</p>
+        
+        <p>Dokter melakukan pemeriksaan laboratorium lengkap dan hasilnya mengkhawatirkan. Jumlah sel CD4 sangat rendah, menandakan sistem imunnya sudah sangat lemah. Pak Doni didiagnosis sudah masuk tahap AIDS.</p>
+        
+        <p>Dokter menjelaskan bahwa ia mengalami beberapa infeksi oportunistik: kandidias is oral (jamur di mulut), tuberkulosis paru (TBC), dan kemungkinan toksoplasmosis. Ia harus segera dirawat inap dan memulai terapi ARV yang lebih intensif.</p>
+        
+        <p><strong>Riwayat Kesehatan:</strong></p>
+        <ul>
+          <li>Didiagnosis HIV+ tahun 2019</li>
+          <li>Tidak patuh minum ARV selama 2 tahun</li>
+          <li>Riwayat merokok 1 bungkus/hari selama 10 tahun</li>
+          <li>Tidak ada riwayat penyakit kronis lain sebelumnya</li>
+          <li>Istri dan anak sudah dites, hasilnya negatif HIV</li>
+        </ul>
+        
+        <p><strong>Pemeriksaan Fisik Saat Masuk RS (Januari 2024):</strong></p>
+        <ul>
+          <li>Kesadaran: Lemah tapi sadar</li>
+          <li>Berat badan: 52 kg (TB: 170 cm) → BMI = 18 (kurus)</li>
+          <li>Tekanan darah: 100/70 mmHg</li>
+          <li>Nadi: 96 x/menit</li>
+          <li>Suhu: 38,5°C</li>
+          <li>Pernapasan: 24 x/menit</li>
+          <li>Mulut: Bercak putih tebal di lidah dan pipi dalam (kandidiasis)</li>
+          <li>Leher: Pembesaran kelenjar getah bening multipel</li>
+          <li>Paru: Suara napas ronki basah halus</li>
+          <li>Kulit: Kering, pucat, lesi keunguan di lengan (Sarkoma Kaposi)</li>
+        </ul>
+      </div>
+
+      <h4>📊 Data Pemeriksaan Laboratorium (Januari 2024)</h4>
+      <table>
+        <tr><th>Parameter</th><th>Hasil Pak Doni</th><th>Nilai Normal</th><th>Interpretasi</th></tr>
+        <tr><td>CD4 Count</td><td style="color:red; font-weight:bold;">85 sel/mm³</td><td>500-1500 sel/mm³</td><td>Sangat Rendah ↓↓↓ (AIDS)</td></tr>
+        <tr><td>Viral Load HIV</td><td style="color:red; font-weight:bold;">250.000 kopi/mL</td><td>&lt; 50 kopi/mL (tidak terdeteksi)</td><td>Sangat Tinggi ↑↑↑</td></tr>
+        <tr><td>CD4/CD8 Ratio</td><td style="color:red; font-weight:bold;">0,15</td><td>0,9-1,9</td><td>Sangat Rendah ↓↓↓</td></tr>
+        <tr><td>Leukosit Total</td><td style="color:blue; font-weight:bold;">2.800/mm³</td><td>5.000-10.000/mm³</td><td>Rendah ↓↓</td></tr>
+        <tr><td>Limfosit</td><td style="color:blue; font-weight:bold;">15%</td><td>25-40%</td><td>Rendah ↓↓</td></tr>
+        <tr><td>Hemoglobin</td><td style="color:blue; font-weight:bold;">9,2 g/dL</td><td>13-17 g/dL</td><td>Rendah ↓↓ (Anemia)</td></tr>
+        <tr><td>Trombosit</td><td style="color:blue; font-weight:bold;">110.000/mm³</td><td>150.000-400.000/mm³</td><td>Rendah ↓</td></tr>
+      </table>
+
+      <h4>📈 Grafik Penurunan CD4 Count Sejak Diagnosis</h4>
+      <div class="graph-container">
+CD4 (sel/mm³)
+600 │●
+500 │  ● (masih minum ARV)
+400 │    ●
+300 │      ●
+200 │        ● (berhenti ARV)
+100 │          ●─────●
+  0 └──────────────────────────────
+   2019  2020  2021  2022  2023  2024</div>
+
+      <div class="image-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Symptoms_of_AIDS.png/600px-Symptoms_of_AIDS.png" alt="Gejala AIDS">
+        <p class="image-caption">Gambar: Berbagai Gejala dan Infeksi Oportunistik pada AIDS</p>
+      </div>
+
+      <span class="tahap">TAHAP 2: Menganalisis Kasus</span>
+      
+      <div class="input-group">
+        <label>1. Identifikasi gejala-gejala yang dialami Pak Doni dan kelompokkan menjadi: (a) Gejala umum, (b) Infeksi oportunistik!</label>
+        <textarea id="kasus3_q1" placeholder="Kelompokkan gejala berdasarkan kategori..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>2. Hitung berapa persen penurunan CD4 count Pak Doni dari tahun 2019 ke 2024!</label>
+        <input type="text" id="kasus3_q2" placeholder="[(600-85) ÷ 600] × 100% = ...%">
+      </div>
+
+      <div class="input-group">
+        <label>3. Berdasarkan grafik, kapan penurunan CD4 paling drastis terjadi? Apa yang terjadi pada periode itu?</label>
+        <textarea id="kasus3_q3" placeholder="Periode tahun... karena Pak Doni..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>4. Mengapa CD4 count 85 sel/mm³ termasuk kategori AIDS? (Batas AIDS adalah CD4 < 200)</label>
+        <input type="text" id="kasus3_q4" placeholder="Karena 85 < 200 dan...">
+      </div>
+
+      <div class="input-group">
+        <label>5. Analisis hubungan antara Viral Load yang tinggi dengan CD4 yang rendah!</label>
+        <textarea id="kasus3_q5" placeholder="Jelaskan mengapa saat virus banyak, sel CD4 menjadi sedikit..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 3: Mencari Data dan Literatur Pendukung</span>
+      
+      <div class="link-box">
+        <a href="https://www.halodoc.com/artikel/hiv-aids-penyebab-gejala-dan-pengobatan" target="_blank" class="link-btn">🏥 Halodoc - HIV/AIDS</a>
+        <a href="https://www.alodokter.com/hiv-aids" target="_blank" class="link-btn">📖 Alodokter - HIV/AIDS</a>
+        <a href="https://hellosehat.com/penyakit/hiv-aids/" target="_blank" class="link-btn">📚 Hello Sehat - HIV/AIDS</a>
+        <a href="https://www.kemkes.go.id/id/topik-kesehatan/hiv-aids" target="_blank" class="link-btn">🏛️ Kemenkes - HIV/AIDS</a>
+      </div>
+
+      <div class="input-group">
+        <label>6. Berdasarkan literatur, jelaskan mengapa HIV menyerang sel CD4 dan apa dampaknya bagi sistem imun!</label>
+        <textarea id="kasus3_q6" placeholder="Tuliskan penjelasan berdasarkan sumber yang kamu baca..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>7. Cari informasi: Apa itu "infeksi oportunistik"? Sebutkan 5 contoh infeksi oportunistik pada AIDS!</label>
+        <textarea id="kasus3_q7" placeholder="Definisi dan contoh infeksi oportunistik..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>8. Mengapa kepatuhan minum ARV sangat penting? Apa yang terjadi jika tidak patuh seperti Pak Doni?</label>
+        <textarea id="kasus3_q8" placeholder="Jelaskan pentingnya kepatuhan ARV berdasarkan literatur..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 4: Menentukan Alternatif Penyelesaian</span>
+      
+      <h4>📊 Terapi ARV yang Diberikan pada Pak Doni</h4>
+      <table>
+        <tr><th>Jenis Obat ARV</th><th>Nama Obat</th><th>Fungsi</th></tr>
+        <tr><td>NRTI</td><td>Tenofovir + Emtricitabine</td><td>Menghambat replikasi virus</td></tr>
+        <tr><td>NNRTI</td><td>Efavirenz</td><td>Menghambat enzim reverse transcriptase</td></tr>
+        <tr><td>Antibiotik</td><td>Kotrimoksazol</td><td>Mencegah infeksi oportunistik</td></tr>
+        <tr><td>Antijamur</td><td>Fluconazole</td><td>Mengobati kandidiasis</td></tr>
+        <tr><td>Anti-TB</td><td>Rifampisin + INH + Etambutol</td><td>Mengobati tuberkulosis</td></tr>
+      </table>
+
+      <h4>📊 Perkembangan CD4 dan Viral Load Setelah Terapi ARV Rutin</h4>
+      <table>
+        <tr><th>Bulan Terapi</th><th>CD4 (sel/mm³)</th><th>Viral Load (kopi/mL)</th><th>Kondisi</th></tr>
+        <tr><td>0 (baseline)</td><td>85</td><td>250.000</td><td>AIDS dengan infeksi oportunistik</td></tr>
+        <tr><td>3</td><td>145</td><td>12.500</td><td>Kandidiasis membaik</td></tr>
+        <tr><td>6</td><td>225</td><td>850</td><td>Berat badan naik 5 kg</td></tr>
+        <tr><td>12</td><td>380</td><td>< 50 (tidak terdeteksi)</td><td>Kondisi stabil, aktivitas normal</td></tr>
+        <tr><td>18</td><td>485</td><td>< 50 (tidak terdeteksi)</td><td>Kualitas hidup baik</td></tr>
+      </table>
+
+      <h4>📈 Grafik Respons Terapi ARV</h4>
+      <div class="graph-container">
+CD4 (sel/mm³)        Viral Load (log kopi/mL)
+500 │            ●               5 │●
+400 │        ●                   4 │  ●
+300 │    ●                       3 │    ●
+200 │  ●                         2 │      ●
+100 │●                           1 │        ●──●
+  0 └────────────────────        0 └────────────────────
+    0  3  6  12  18 (bulan)         0  3  6  12  18 (bulan)
+    ─── CD4                          ─── Viral Load</div>
+
+      <div class="input-group">
+        <label>9. Hitung peningkatan CD4 setelah 18 bulan terapi! Berapa persen peningkatannya?</label>
+        <input type="text" id="kasus3_q9" placeholder="[(485-85) ÷ 85] × 100% = ...%">
+      </div>
+
+      <div class="input-group">
+        <label>10. Pada bulan ke berapa Viral Load mencapai "tidak terdeteksi"? Apa makna klinisnya?</label>
+        <input type="text" id="kasus3_q10" placeholder="Bulan ke-... artinya...">
+      </div>
+
+      <div class="input-group">
+        <label>11. Bandingkan penurunan Viral Load dengan peningkatan CD4! Apa kesimpulanmu?</label>
+        <textarea id="kasus3_q11" placeholder="Saat viral load turun, CD4 naik, karena..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>12. Selain ARV, dukungan apa lagi yang diperlukan pasien HIV/AIDS? (cari dari literatur)</label>
+        <textarea id="kasus3_q12" placeholder="Sebutkan dukungan nutrisi, psikologis, sosial..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 5: Menarik Kesimpulan</span>
+      
+      <div class="input-group">
+        <label>13. Berdasarkan seluruh data dan analisis, buatlah kesimpulan lengkap tentang kasus Pak Doni!</label>
+        <textarea id="kasus3_q13" placeholder="Kesimpulan harus mencakup: (1) Stadium penyakit, (2) Penyebab memburuk, (3) Mekanisme HIV menyerang imun, (4) Respons terapi, (5) Pentingnya kepatuhan, (6) Prognosis"></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>14. Bandingkan ketiga kasus (Alergi, Autoimun, dan HIV/AIDS) dari segi mekanisme gangguan sistem imun!</label>
+        <textarea id="kasus3_q14" placeholder="Alergi: sistem imun bereaksi berlebihan; Autoimun: menyerang diri sendiri; HIV/AIDS: sistem imun dirusak..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 6: Mempresentasikan Hasil</span>
+      
+      <div class="success-box">
+        <strong>📢 Tugas Presentasi Kelompok:</strong>
+        <ol style="margin-top:10px;">
+          <li>Siapkan presentasi kelompokmu (7-10 menit)</li>
+          <li>Jelaskan perbedaan ketiga jenis gangguan sistem imun</li>
+          <li>Presentasikan grafik respons terapi ARV dengan jelas</li>
+          <li>Sampaikan pentingnya kepatuhan pengobatan</li>
+          <li>Diskusikan aspek psikososial HIV/AIDS</li>
+          <li>Siapkan untuk menjawab pertanyaan</li>
+        </ol>
+      </div>
+
+      <div class="input-group">
+        <label>15. Catatan Feedback dari Presentasi (diisi setelah presentasi):</label>
+        <textarea id="kasus3_q15" placeholder="Tuliskan masukan dari guru dan kelompok lain..."></textarea>
+      </div>
+
+      <span class="tahap">TAHAP 7: Melakukan Refleksi dan Revisi</span>
+      
+      <div class="input-group">
+        <label>16. Refleksi: Apa pembelajaran paling penting yang kamu dapatkan dari ketiga kasus ini?</label>
+        <textarea id="kasus3_q16" placeholder="Tuliskan insight terpenting dari pembelajaran CBL ini..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>17. Bagaimana pemahaman tentang data numerik (grafik, tabel, perhitungan) membantu analisis kasusmu?</label>
+        <textarea id="kasus3_q17" placeholder="Jelaskan manfaat kemampuan numerasi dalam memahami kasus..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>18. Apa yang masih ingin kamu pelajari lebih dalam tentang sistem imun?</label>
+        <textarea id="kasus3_q18" placeholder="Tuliskan topik yang ingin dipelajari lebih lanjut..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label>19. Revisi Final: Perbaiki kesimpulanmu pada nomor 13 berdasarkan semua feedback!</label>
+        <textarea id="kasus3_q19" placeholder="Tuliskan kesimpulan final yang sudah diperbaiki..."></textarea>
+      </div>
+
+      <div class="success-box" style="margin-top:30px;">
+        <h4 style="color:#28a745; margin-bottom:10px;">🎓 Kesimpulan Akhir Pembelajaran</h4>
+        <p><strong>Ketiga gangguan sistem imun memiliki karakteristik berbeda:</strong></p>
+        <ol style="margin-top:10px;">
+          <li><strong>Alergi:</strong> Sistem imun bereaksi BERLEBIHAN terhadap zat yang tidak berbahaya</li>
+          <li><strong>Autoimun:</strong> Sistem imun KELIRU menyerang sel tubuh sendiri</li>
+          <li><strong>HIV/AIDS:</strong> Sistem imun DIRUSAK oleh virus hingga TIDAK BERFUNGSI</li>
+        </ol>
+        <p style="margin-top:15px;"><strong>Kunci sukses pembelajaran CBL: Analisis data, cari literatur, diskusi kelompok, dan refleksi!</strong></p>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="btn-save" onclick="saveData()">💾 Simpan Jawaban</button>
+
+  <script>
+    // Show selected section
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      const buttons = document.querySelectorAll('.nav-btn');
+      
+      sections.forEach(section => section.classList.remove('active'));
+      buttons.forEach(button => button.classList.remove('active'));
+      
+      document.getElementById(sectionId).classList.add('active');
+      event.target.classList.add('active');
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Toggle accordion
+    function toggleAccordion(element) {
+      const accordion = element.parentElement;
+      accordion.classList.toggle('open');
+    }
+
+    // Save data to localStorage
+    function saveData() {
+      const inputs = document.querySelectorAll('input, textarea');
+      const data = {};
+      
+      inputs.forEach(input => {
+        if (input.id) {
+          data[input.id] = input.value;
+        }
+      });
+      
+      localStorage.setItem('elkpd_data', JSON.stringify(data));
+      alert('✅ Data berhasil disimpan!');
+    }
+
+    // Load saved data
+    function loadData() {
+      const savedData = localStorage.getItem('elkpd_data');
+      
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        
+        Object.keys(data).forEach(key => {
+          const element = document.getElementById(key);
+          if (element) {
+            element.value = data[key];
+          }
+        });
+      }
+    }
+
+    // Auto-save every 2 minutes
+    setInterval(saveData, 120000);
+
+    // Load data on page load
+    window.addEventListener('load', loadData);
+
+    // Set today's date
+    const today = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('tanggal');
+    if (dateInput && !dateInput.value) {
+      dateInput.value = today;
+    }
+  </script>
+</body>
+</html>
